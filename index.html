@@ -284,6 +284,62 @@
         line-height: 1.7;
       }
 
+      /* SCREENSHOTS */
+      .screenshots-bg {
+        background: var(--bg);
+        border-top: 1px solid var(--border);
+        border-bottom: 1px solid var(--border);
+      }
+
+      .screenshots-header {
+        margin-bottom: 2.5rem;
+      }
+
+      .screenshots-tabs {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-bottom: 2rem;
+      }
+
+      .tab-btn {
+        background: var(--white);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-sm);
+        padding: 0.5rem 1.1rem;
+        font-size: 0.88rem;
+        font-family: "DM Sans", sans-serif;
+        font-weight: 500;
+        color: var(--mid);
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+
+      .tab-btn:hover {
+        border-color: var(--blue);
+        color: var(--blue);
+      }
+
+      .tab-btn.active {
+        background: var(--blue);
+        border-color: var(--blue);
+        color: white;
+      }
+
+      .screenshots-display {
+        border-radius: var(--radius);
+        overflow: hidden;
+        box-shadow: 0 8px 48px rgba(0, 0, 0, 0.12);
+        border: 1px solid var(--border);
+      }
+
+      .screenshots-display img {
+        width: 100%;
+        height: auto;
+        display: block;
+        transition: opacity 0.15s ease;
+      }
+
       /* FEATURES */
       .features-bg {
         background: var(--white);
@@ -776,6 +832,33 @@
       </div>
     </section>
 
+    <!-- SCREENSHOTS -->
+    <section class="screenshots-bg">
+      <div class="container">
+        <div class="screenshots-header">
+          <p class="section-label fade-up">Screenshots</p>
+          <h2 class="section-title fade-up delay-1">See Billr in action.</h2>
+          <p class="section-sub fade-up delay-2">
+            A clean, focused interface. No clutter, no learning curve.
+          </p>
+        </div>
+        <div class="screenshots-tabs fade-up delay-2">
+          <button class="tab-btn active" data-tab="dashboard">Dashboard</button>
+          <button class="tab-btn" data-tab="timesheet">Timesheet</button>
+          <button class="tab-btn" data-tab="reports">Reports</button>
+          <button class="tab-btn" data-tab="invoice">Invoice PDF</button>
+          <button class="tab-btn" data-tab="settings">Settings</button>
+        </div>
+        <div class="screenshots-display fade-up delay-3">
+          <img
+            id="screenshot-img"
+            src="screenshots/dashboard.jpg"
+            alt="Billr Dashboard"
+          />
+        </div>
+      </div>
+    </section>
+
     <!-- PRICING -->
     <section id="pricing">
       <div class="container">
@@ -959,6 +1042,29 @@
       document
         .querySelectorAll(".fade-up")
         .forEach((el) => observer.observe(el));
+
+      // Screenshot tab switcher
+      const tabs = document.querySelectorAll(".tab-btn");
+      const screenshotImg = document.getElementById("screenshot-img");
+      const screenshots = {
+        dashboard: "screenshots/dashboard.jpg",
+        timesheet: "screenshots/timesheet.jpg",
+        reports: "screenshots/reports.jpg",
+        invoice: "screenshots/invoice.jpg",
+        settings: "screenshots/settings.jpg",
+      };
+      tabs.forEach((tab) => {
+        tab.addEventListener("click", () => {
+          tabs.forEach((t) => t.classList.remove("active"));
+          tab.classList.add("active");
+          screenshotImg.style.opacity = "0";
+          setTimeout(() => {
+            screenshotImg.src = screenshots[tab.dataset.tab];
+            screenshotImg.alt = "Billr " + tab.textContent;
+            screenshotImg.style.opacity = "1";
+          }, 150);
+        });
+      });
     </script>
   </body>
 </html>
