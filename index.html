@@ -1065,6 +1065,26 @@
           }, 150);
         });
       });
+
+      // Download tracking
+      const downloadPlatforms = {
+        "Billr-Windows-Setup.exe": "windows",
+        "Billr-Mac-Installer.dmg": "macos",
+        "Billr-Linux.AppImage": "linux",
+      };
+      document.querySelectorAll(".download-card").forEach((card) => {
+        card.addEventListener("click", () => {
+          const url = card.getAttribute("href") || "";
+          const fileName = url.split("/").pop();
+          const platform = downloadPlatforms[fileName] || "unknown";
+          gtag("event", "file_download", {
+            file_name: fileName,
+            file_extension: fileName.split(".").pop(),
+            platform: platform,
+            link_url: url,
+          });
+        });
+      });
     </script>
   </body>
 </html>
